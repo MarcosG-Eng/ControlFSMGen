@@ -30,11 +30,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
--- Register that updates the State of the Diagram
+--Registro que actualiza el Estado del Diagrama
 
 entity Reg_PLC is
    generic( N_Bits_Reg : integer := 8;
-            T_D        : time := 10 ps ); -- Delay time from active clock edge to Q output update.
+            T_D        : time := 10 ps ); -- Tiempo de retardo desde el flanco activo del reloj hasta la actualización de la salida Q.
    Port   ( D : in  STD_LOGIC_VECTOR(N_Bits_Reg-1 downto 0);
             Q : out STD_LOGIC_VECTOR(N_Bits_Reg-1 downto 0);
          reset : in STD_LOGIC;

@@ -1,22 +1,47 @@
 ----------------------------------------------------------------------------------
--- File: Sincronizador.vhd
--- Purpose: Synchronize and debounce input signals for FSM triggers
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 13.07.2023 12:32:59
+-- Design Name: 
+-- Module Name: Sincronizador - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
 entity Sincronizador is
-    generic ( N : natural := 4 );
-    port    ( I     : in  STD_LOGIC;
+    generic ( n     : natural := 4 );
+    Port    ( I     : in STD_LOGIC;
               CKE   : out STD_LOGIC;
-              reset : in  STD_LOGIC;
-              clk   : in  STD_LOGIC );
+              reset : in STD_LOGIC;
+              clk   : in STD_LOGIC);
 end Sincronizador;
 
-architecture Structure of Sincronizador is
+architecture Estructura of Sincronizador is
 
-signal    s1, s2 : STD_LOGIC;        -- Internal signals for the structure.
+signal    s1, s2 : STD_LOGIC;        -- Señales internas de la estructura.
 
 component Debouncer is generic ( n     : natural := 4 );
                        port    ( I     : in std_logic;
@@ -31,4 +56,4 @@ begin
 DB:     Debouncer generic map( n )  
                   port    map (I=>I, O=>s2, reset=>reset,clk=>clk);
 CKGEN:  CKE_Gen   port    map (I=>s2,O=>CKE,reset=>reset,clk=>clk);
-end Structure;
+end Estructura;

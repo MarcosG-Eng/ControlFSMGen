@@ -1,51 +1,87 @@
 ----------------------------------------------------------------------------------
--- File: PLC.vhd
--- Purpose: Top-level PLC FSM instance with parameterized tables
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 13.07.2023 12:34:48
+-- Design Name: 
+-- Module Name: PLC - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
-use work.PLC_Types.all;
+use work.Tipos_FSM_PLC.all;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
 
 entity PLC is
-    generic(
-        K : natural := 32;
-        P : natural := 32;
-        M : natural := 32
-    );
-    port(
-        x      : in  STD_LOGIC_VECTOR(K-1 downto 0);
-        y      : out STD_LOGIC_VECTOR(P-1 downto 0);
-        Trigger: in  STD_LOGIC;
-        clk    : in  STD_LOGIC;
-        cke    : in  STD_LOGIC;
-        reset  : in  STD_LOGIC
-    );
+    generic(   k    : natural := 32;    -- k entradas.
+            p    : natural := 32;    -- p salidas.
+            m    : natural := 32);   --2^m estados
+    Port (
+    
+        x:in std_logic_vector(k-1 downto 0);
+        y:out std_logic_vector(p-1 downto 0);
+        Trigger : in STD_LOGIC;
+        clk     : in STD_LOGIC;
+        cke     : in STD_LOGIC;
+        reset   : in std_logic);
+              
+--        sensores:in std_logic_vector(1 downto 0);
+--        modo: in STD_LOGIC;
+--        motor : out std_logic_vector(2 downto 0);
+--        sw: in std_logic_vector(2 downto 0));
+
 end PLC;
 
-architecture Behavioral of PLC is
+architecture Comportamiento of PLC is
+
+
+--señales intermedias
+
+
+
+
 
     component FSM_PLC is
-        generic(
-            k    : natural := 32;    -- k entradas.
-            p    : natural := 32;    -- p salidas.
-            m    : natural := 32;    -- m biestables. (Hasta 16 estados)
-            T_DM : time    := 10 ps; -- Tiempo de retardo desde el cambio de direcciï¿½n del MUX hasta la actualizaciï¿½n de la salida Q.
-            T_D  : time    := 10 ps; -- Tiempo de retardo desde el flanco activo del reloj hasta la actualizaciï¿½n de la salida Q.
-            T_SU : time    := 10 ps; -- Tiempo de Setup.
-            T_H  : time    := 10 ps; -- Tiempo de Hold.
-            T_W  : time    := 10 ps); -- Anchura de pulso.
-        port(
-            x : in  STD_LOGIC_VECTOR( k - 1 downto 0 );     -- x es el bus de entrada.
-            y : out STD_LOGIC_VECTOR( p - 1 downto 0 );     -- y es el bus de salida.
-            Tabla_De_Estado : in Tabla_FSM( 0 to 2**m - 1 );  -- Contiene la Tabla de Estado estilo Moore: Z(n+1)=T1(Z(n),x(n))
-            Tabla_De_Salida : in Tabla_FSM( 0 to 2**m - 1 );  -- Contiene la Tabla de Salida estilo Moore: Y(n  )=T2(Z(n))
-            clk     : in STD_LOGIC;   -- La seï¿½al de reloj.
-            cke     : in STD_LOGIC;   -- La seï¿½al de habilitaciï¿½n de avance: si vale '1' el autï¿½mata avanza a ritmo de clk y si vale '0' manda Trigger.              
-            reset   : in STD_LOGIC;   -- La seï¿½al de inicializaciï¿½n.
-            Trigger : in STD_LOGIC ); -- La seï¿½al de disparo (single shot) asï¿½ncrono y posï¿½blemente con rebotes para hacer un avance ï¿½nico. Ha de llevar un sincronizador.
+
+        generic(k    : natural := 32;    -- k entradas.
+                p    : natural := 32;    -- p salidas.
+                m    : natural := 32;    -- m biestables. (Hasta 16 estados)
+                T_DM : time    := 10 ps; -- Tiempo de retardo desde el cambio de dirección del MUX hasta la actualización de la salida Q.
+                T_D  : time    := 10 ps; -- Tiempo de retardo desde el flanco activo del reloj hasta la actualización de la salida Q.
+                T_SU : time    := 10 ps; -- Tiempo de Setup.
+                T_H  : time    := 10 ps; -- Tiempo de Hold.
+                T_W  : time    := 10 ps); -- Anchura de pulso.
+        port   (   x : in  STD_LOGIC_VECTOR( k - 1 downto 0 );     -- x es el bus de entrada.
+             y : out STD_LOGIC_VECTOR( p - 1 downto 0 );     -- y es el bus de salida.
+             Tabla_De_Estado : in Tabla_FSM( 0 to 2**m - 1 );  -- Contiene la Tabla de Estado estilo Moore: Z(n+1)=T1(Z(n),x(n))
+             Tabla_De_Salida : in Tabla_FSM( 0 to 2**m - 1 );  -- Contiene la Tabla de Salida estilo Moore: Y(n  )=T2(Z(n))
+             clk     : in STD_LOGIC;   -- La señal de reloj.
+             cke     : in STD_LOGIC;   -- La señal de habilitación de avance: si vale '1' el autómata avanza a ritmo de clk y si vale '0' manda Trigger.              
+             reset   : in STD_LOGIC;   -- La señal de inicialización.
+             Trigger : in STD_LOGIC ); -- La señal de disparo (single shot) asíncrono y posíblemente con rebotes para hacer un avance único. Ha de llevar un sincronizador.
     end component FSM_PLC;
+
+
 
     constant TablaE :Tabla_FSM(0 to 2**m-1):=
     (x"00000001",
@@ -84,7 +120,7 @@ architecture Behavioral of PLC is
                                                      (others => '0'));
 
 
-                                                     begin
+begin
 
 
     FSM:FSM_PLC
@@ -93,4 +129,4 @@ architecture Behavioral of PLC is
 
   
 
-end Behavioral;
+end Comportamiento;

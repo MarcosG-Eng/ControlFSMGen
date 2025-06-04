@@ -1,23 +1,48 @@
 ----------------------------------------------------------------------------------
--- File: CKE_Gen.vhd
--- Purpose: Generate single clock enable pulse on button press
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 13.07.2023 12:34:48
+-- Design Name: 
+-- Module Name: CKE_Gen - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+
+--Bloque para generar un pulso de reloj al activar un pulsador
 entity CKE_Gen is
-    port(
-        I     : in  STD_LOGIC;
-        O     : out STD_LOGIC;
-        reset : in  STD_LOGIC;
-        clk   : in  STD_LOGIC
-    );
+    Port ( I : in STD_LOGIC;
+           O : out STD_LOGIC;
+           reset : in STD_LOGIC;
+           clk : in STD_LOGIC);
+type Estado is ( E_1, E_2, E_3); --3 Estados.           
 end CKE_Gen;
 
 architecture FSM_Simple of CKE_Gen is
-type Estado is ( E_1, E_2, E_3); -- 3 States.           
-signal EA, PE : Estado; -- EA is the current state and PE is the next state.
+signal EA, PE : Estado; -- EA es el estado actual y PE es el próximo estado.
 begin
 
 
