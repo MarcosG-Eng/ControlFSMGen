@@ -25,9 +25,9 @@ The project is intended for rapid prototyping and deployment of industrial contr
 ## Project Structure
 ```
 ├── src/
-│   ├── hdl/                # VHDL source files for FSM and supporting modules
+│   ├── hdl/                # VHDL source files for FSM and supporting modules (board-independent)
 │   ├── sim/                # Test bench files
-│   ├── constraints/        # Xilinx constraints files
+│   ├── constraints/        # Xilinx constraints files (ZYBO 7000 example provided)
 │   └── ip/                 # IP cores (if any)
 ├── proj/                   # Vivado project files
 ├── README.md               # Project documentation
@@ -46,7 +46,7 @@ The project is intended for rapid prototyping and deployment of industrial contr
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/MarcosG-Eng/ControlFSMGen.git
    cd ControlFSMGen
    ```
 2. Open Vivado and source the `generate_project.tcl` script to set up the project:
@@ -61,15 +61,7 @@ The project is intended for rapid prototyping and deployment of industrial contr
 ## Usage
 
 ### Simulation
-1. Navigate to the simulation directory:
-   ```bash
-   cd proj/Table2FSM.sim/sim_1/behav
-   ```
-2. Run the simulation using the provided scripts:
-   ```bash
-   ./simulate.bat
-   ```
-3. Analyze the waveforms using the Vivado simulator.
+The project includes a comprehensive test bench located in the `src/sim/` directory to validate the top module. You can use Vivado's built-in simulator or your preferred VHDL simulation tool to run and analyze the test bench.
 
 ### Hardware Deployment
 1. Connect the FPGA board to your computer.
