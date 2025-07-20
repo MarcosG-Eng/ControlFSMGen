@@ -32,12 +32,12 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 Package Tipos_FSM_PLC is    -- En este paquete defino mis tipos
-                            -- de datos constantes y señales globales, subprogramas, etc.
-                            -- El tipo Tabla es común para generar una ROM ó un Multiplexor.
+                            -- de datos constantes y seï¿½ales globales, subprogramas, etc.
+                            -- El tipo Tabla es comï¿½n para generar una ROM ï¿½ un Multiplexor.
     constant N_Bits_Dato : Natural := 32; -- Anchura del dato de la tabla.                            
     type Tabla_FSM is array( Natural range <> ) of STD_LOGIC_VECTOR( N_Bits_Dato - 1 downto 0 );
                             -- Requerimientos de E/S del enunciado:
-    constant       k_Max : natural := 3;   -- 3 entradas como máximo.
-    constant       p_Max : natural := 4;   -- p salidas como máximo.
-    constant       m_Max : natural := 4;   -- m biestables como máximo. (Hasta 16 estados)
+    constant       k_Max : natural := 3;   -- 3 entradas como mï¿½ximo.
+    constant       p_Max : natural := 4;   -- p salidas como mï¿½ximo.
+    constant       m_Max : natural := 4;   -- m biestables como mï¿½ximo. (Hasta 16 estados)
 end Tipos_FSM_PLC;
